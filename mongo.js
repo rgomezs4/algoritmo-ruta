@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const createGraph = require("ngraph.graph");
 const path = require("ngraph.path");
 const graph = createGraph();
+const _ = require("lodash");
 
 mongoose.connect(
   "mongodb+srv://admin:adminadmin@eacluster-nxzrs.mongodb.net/test?retryWrites=true"
@@ -9,17 +10,15 @@ mongoose.connect(
 
 const pathFinder = path.aStar(graph, {
   distance(fromNode, toNode) {
-    // In this case we have coordinates. Lets use them as
-    // distance between two nodes:
     let dx = fromNode.data.x - toNode.data.x;
     let dy = fromNode.data.y - toNode.data.y;
 
     return Math.sqrt(dx * dx + dy * dy);
   },
   heuristic(fromNode, toNode) {
-    // this is where we "guess" distance between two nodes.
-    // In this particular case our guess is the same as our distance
-    // function:
+    let link = _.find(fromNode.links, link => {
+      return link.toId === toNode.id;
+    });
     let dx = fromNode.data.x - toNode.data.x;
     let dy = fromNode.data.y - toNode.data.y;
 
@@ -44,12 +43,8 @@ db.once("open", async () => {
   var i = 1;
   coords.forEach(coord => {
     graph.addNode(coord._id, { x: coord.lng, y: coord.lat });
-    //console.log(graph.getNode(coord._id));
     if (coord._id === "london") return;
-    //console.log(i);
-    //console.log(coord._id);
     coord.links.forEach(link => {
-      //console.log(link);
       graph.addLink(link.origen, link.destino, { velocidad: link.velocidad });
     });
     i++;
@@ -61,7 +56,7 @@ db.once("open", async () => {
 
   let foundPath = pathFinder.find("6 avenida 8 calle", "8 avenida 6 calle");
 
-  console.log(foundPath.reverse());
+  //console.log(foundPath.reverse());
 });
 
 module.exports = { graph: graph };
