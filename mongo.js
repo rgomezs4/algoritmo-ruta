@@ -62,4 +62,4 @@ function findRoute(fromNode, toNode) {
   return foundPath;
 }
 
-module.exports = { findRoute: findRoute };
+module.exports = { findRoute: findRoute, graph: graph };
