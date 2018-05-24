@@ -17,7 +17,7 @@ app.get("/path/findPath/:fromNode/:toNode", async (req, res) => {
 
 app.get("*", (req, res) =>
   res.status(200).send({
-    message: "Welcome to findPath."
+    message: "Hola, el path es: /path/findPath/:fromNode/:toNode."
   })
 );
 
