@@ -46,7 +46,7 @@ app.get("*", (req, res) =>
   res
     .status(200)
     .send(
-      "<h2>Paths:</h2> <p>/path/findPath/:fromNode/:toNode.</p><p>/path/getAllNodes</p>"
+      "<h2>Paths:</h2> <p>/path/findPath/:fromNode/:toNode.</p><p>/path/getAllNodes</p><p>/path/test/:fromNode/:toNode</p>"
     )
 );
 
