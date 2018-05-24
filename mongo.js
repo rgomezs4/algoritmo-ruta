@@ -10,19 +10,24 @@ mongoose.connect(
 
 const pathFinder = path.aStar(graph, {
   distance(fromNode, toNode) {
-    let dx = fromNode.data.x - toNode.data.x;
-    let dy = fromNode.data.y - toNode.data.y;
+    try {
+      let dx = fromNode.data.x - toNode.data.x;
+      let dy = fromNode.data.y - toNode.data.y;
 
-    return Math.sqrt(dx * dx + dy * dy);
+      return Math.sqrt(dx * dx + dy * dy);
+    } catch (error) {
+      return 99999999;
+    }
   },
   heuristic(fromNode, toNode) {
-    let link = _.find(fromNode.links, link => {
-      return link.toId === toNode.id;
-    });
-    let dx = fromNode.data.x - toNode.data.x;
-    let dy = fromNode.data.y - toNode.data.y;
+    try {
+      let dx = fromNode.data.x - toNode.data.x;
+      let dy = fromNode.data.y - toNode.data.y;
 
-    return Math.sqrt(dx * dx + dy * dy);
+      return Math.sqrt(dx * dx + dy * dy);
+    } catch (error) {
+      return 99999999;
+    }
   }
 });
 
@@ -54,9 +59,12 @@ db.once("open", async () => {
     node.links.forEach(link => {});
   });
 
-  let foundPath = pathFinder.find("6 avenida 8 calle", "8 avenida 6 calle");
+  let foundPath = pathFinder.find(
+    "6 avenida 8 calle",
+    "Avenida Bolivar 20 calle"
+  );
 
-  //console.log(foundPath.reverse());
+  console.log(foundPath.reverse());
 });
 
 module.exports = { graph: graph };
