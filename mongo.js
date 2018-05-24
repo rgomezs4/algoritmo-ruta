@@ -54,17 +54,12 @@ db.once("open", async () => {
     });
     i++;
   });
-
-  graph.forEachNode(node => {
-    node.links.forEach(link => {});
-  });
-
-  let foundPath = pathFinder.find(
-    "6 avenida 8 calle",
-    "Avenida Bolivar 20 calle"
-  );
-
-  console.log(foundPath.reverse());
 });
 
-module.exports = { graph: graph };
+function findRoute(fromNode, toNode) {
+  let foundPath = pathFinder.find(fromNode, toNode);
+
+  return foundPath;
+}
+
+module.exports = { findRoute: findRoute };
