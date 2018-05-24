@@ -3,6 +3,8 @@ const logger = require("morgan");
 const bodyParser = require("body-parser");
 const findRoute = require("./mongo").findRoute;
 const graph = require("./mongo").graph;
+const astar = require("./astar").astar;
+var util = require("util");
 
 const app = express();
 app.use(logger("dev"));
@@ -23,6 +25,20 @@ app.get("/path/getAllNodes", (req, res) => {
   });
   return res.status(200).send({
     nodes
+  });
+});
+
+app.get("/path/test/:fromNode/:toNode", (req, res) => {
+  let path = astar.search(graph, req.params.fromNode, req.params.toNode, null);
+  path.forEach(node => {
+    node.links = [];
+    node.data = {
+      x: node.data.x,
+      y: node.data.y
+    };
+  });
+  return res.status(200).send({
+    path: path
   });
 });
 

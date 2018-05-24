@@ -47,7 +47,18 @@ db.once("open", async () => {
 
   var i = 1;
   coords.forEach(coord => {
-    graph.addNode(coord._id, { x: coord.lng, y: coord.lat });
+    graph.addNode(coord._id, {
+      x: coord.lng,
+      y: coord.lat,
+      f: 0,
+      g: 0,
+      h: 0,
+      visited: false,
+      closed: false,
+      debug: "",
+      parent: null
+    });
+    
     if (coord._id === "london") return;
     coord.links.forEach(link => {
       graph.addLink(link.origen, link.destino, { velocidad: link.velocidad });
