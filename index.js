@@ -31,7 +31,7 @@ app.get("/path/getAllNodes", (req, res) => {
 app.get("/path/getRelevantNodes", (req, res) => {
   let nodes = [];
   graph.forEachNode(node => {
-    if (node.data.relevant == 1) {
+    if (node.data && node.data.relevant) {
       nodes.push(node);
     }
   });
