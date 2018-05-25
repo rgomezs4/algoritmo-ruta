@@ -39,6 +39,8 @@ db.once("open", async () => {
     _id: String,
     lat: Number,
     lng: Number,
+    relevant: Number,
+    image: String,
     links: []
   });
 
@@ -53,6 +55,8 @@ db.once("open", async () => {
       f: 0,
       g: 0,
       h: 0,
+      relevant: coord.relevant,
+      image: coord.image,
       visited: false,
       closed: false,
       debug: "",

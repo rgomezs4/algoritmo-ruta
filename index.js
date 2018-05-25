@@ -28,6 +28,18 @@ app.get("/path/getAllNodes", (req, res) => {
   });
 });
 
+app.get("/path/getRelevantNodes", (req, res) => {
+  let nodes = [];
+  graph.forEachNode(node => {
+    if (node.data.relevant == 1) {
+      nodes.push(node);
+    }
+  });
+  return res.status(200).send({
+    nodes
+  });
+});
+
 app.get("/path/test/:fromNode/:toNode", (req, res) => {
   let path = astar.search(graph, req.params.fromNode, req.params.toNode, null);
   path.forEach(node => {
@@ -46,7 +58,7 @@ app.get("*", (req, res) =>
   res
     .status(200)
     .send(
-      "<h2>Paths:</h2> <p>/path/findPath/:fromNode/:toNode.</p><p>/path/getAllNodes</p><p>/path/test/:fromNode/:toNode</p>"
+      "<h2>Paths:</h2> <p>/path/findPath/:fromNode/:toNode.</p><p>/path/getAllNodes</p><p>/path/test/:fromNode/:toNode</p><p>/path/getRelevantNodes</p>"
     )
 );
 
